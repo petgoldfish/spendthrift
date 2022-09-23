@@ -6,9 +6,19 @@ Author: Raghav Sai
 import csv
 from collections import defaultdict
 from datetime import datetime
+from enum import Enum
 
 import click
 from tabulate import tabulate
+
+
+class Kind(Enum):
+    """
+    Type of report
+    """
+
+    CATEGORICAL = "categorical"
+    MONTHLY = "monthly"
 
 
 def process_data(data):
@@ -67,7 +77,7 @@ def calculate_monthly_spend(by_month):
 
 
 def create_report(kind: str, data):
-    if kind == "categorical":
+    if kind == Kind.CATEGORICAL.value:
         by_category = group_data_by_category(data)
         categorical_spend = calculate_categorical_spend(by_category)
         return tabulate(
@@ -75,7 +85,7 @@ def create_report(kind: str, data):
             headers=["Category", "Amount", "Count"],
             tablefmt="fancy_grid",
         )
-    if kind == "monthly":
+    if kind == Kind.MONTHLY.value:
         by_month = group_data_by_month(data)
         monthly_spend = calculate_monthly_spend(by_month)
         return tabulate(
@@ -85,9 +95,21 @@ def create_report(kind: str, data):
         )
 
 
+def validate_kind(ctx, param, value):
+    kinds = [kind.value for kind in Kind]
+    if value not in kinds:
+        raise click.BadParameter(f"'{value}'. Must be one of {kinds}")
+    return value
+
+
 @click.command()
 @click.argument("statement_file", type=click.File("r"))
-@click.option("--kind", default="categorical", help="the kind of report to generate")
+@click.option(
+    "--kind",
+    default=Kind.CATEGORICAL.value,
+    help="the kind of report to generate",
+    callback=validate_kind,
+)
 def cli(statement_file, kind):
     raw_data = [dict(row) for row in csv.DictReader(statement_file)]
 
