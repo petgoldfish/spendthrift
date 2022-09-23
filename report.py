@@ -86,10 +86,10 @@ def create_report(kind: str, data):
 
 
 @click.command()
-@click.argument("infile", type=click.File("rb"))
+@click.argument("statement_file", type=click.File("rb"))
 @click.option("--kind", default="categorical", help="the kind of report to generate")
-def cli(infile, kind):
-    raw_data = json.load(infile)
+def cli(statement_file, kind):
+    raw_data = json.load(statement_file)
 
     processed_data = process_data(raw_data)
 
