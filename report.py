@@ -3,7 +3,7 @@ CLI Tool that parses Chase statements and produces monthly or categorical spend 
 Author: Raghav Sai
 """
 
-import json
+import csv
 from collections import defaultdict
 from datetime import datetime
 
@@ -86,10 +86,10 @@ def create_report(kind: str, data):
 
 
 @click.command()
-@click.argument("statement_file", type=click.File("rb"))
+@click.argument("statement_file", type=click.File("r"))
 @click.option("--kind", default="categorical", help="the kind of report to generate")
 def cli(statement_file, kind):
-    raw_data = json.load(statement_file)
+    raw_data = [dict(row) for row in csv.DictReader(statement_file)]
 
     processed_data = process_data(raw_data)
 
