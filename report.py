@@ -128,24 +128,18 @@ def generate_report(kind: str, data):
         )
 
 
-def validate_kind(ctx, param, value):
-    """Validate the given kind value"""
-    kinds = [kind.value for kind in Kind]
-    if value not in kinds:
-        raise click.BadParameter(f"'{value}'. Must be one of {kinds}")
-    return value
-
-
 @click.command()
 @click.argument("statement_file", type=click.File("r"))
 @click.option(
+    "-k",
     "--kind",
+    type=click.Choice([kind.value for kind in Kind]),
     default=Kind.CATEGORICAL.value,
+    show_default=True,
     help="the kind of report to generate",
-    callback=validate_kind,
 )
 def cli(statement_file, kind):
-    """Main"""
+    """Parses STATEMENT_FILE and produces a categorical or monthly spend report"""
     raw_data = [dict(row) for row in csv.DictReader(statement_file)]
 
     processed_data = process_data(raw_data)
