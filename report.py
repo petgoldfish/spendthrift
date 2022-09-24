@@ -13,19 +13,29 @@ from tabulate import tabulate
 
 
 class Kind(Enum):
-    """
-    Type of report
-    """
+    """Type of report"""
 
     CATEGORICAL = "categorical"
     MONTHLY = "monthly"
 
 
 def process_data(data):
+    """
+    Process raw data
+
+    :param data: raw list of objects from the statement file
+    :returns: processed list of objects
+    """
     return [item for item in data if not item["Type"] == "Payment"]
 
 
 def group_data_by_category(data):
+    """
+    Group data by category
+
+    :param data: list of objects
+    :returns: dict of objects grouped into lists by categories
+    """
     by_category = defaultdict(list)
 
     # Category
@@ -39,6 +49,12 @@ def group_data_by_category(data):
 
 
 def group_data_by_month(data):
+    """
+    Group data by month
+
+    :param data: list of objects
+    :returns: dict of objects grouped into lists by month
+    """
     by_month = defaultdict(list)
 
     # Date
@@ -51,7 +67,13 @@ def group_data_by_month(data):
 
 
 def calculate_categorical_spend(by_category):
-    # Categorical spend
+    """
+    Calculate a categorical spend report
+
+    :param by_category: dict of objects grouped by categories
+    :returns: list of tuples, with each tuple being (category_name,
+    categorical_sum, categorical_count)
+    """
     categorical_spend = [
         [
             category,
@@ -65,7 +87,12 @@ def calculate_categorical_spend(by_category):
 
 
 def calculate_monthly_spend(by_month):
-    # Monthly spend
+    """
+    Calculate a monthly spend report
+
+    :param by_month: dict of objects grouped by month
+    :returns: list of tuples, with each tuple being (month, monthly_sum, monthly_count)
+    """
     return [
         [
             month,
@@ -76,7 +103,13 @@ def calculate_monthly_spend(by_month):
     ]
 
 
-def create_report(kind: str, data):
+def generate_report(kind: str, data):
+    """
+    Generate a printable report of the specified kind
+
+    :param kind: the kind of report to generate
+    :returns: a printable report of the specified kind
+    """
     if kind == Kind.CATEGORICAL.value:
         by_category = group_data_by_category(data)
         categorical_spend = calculate_categorical_spend(by_category)
@@ -96,6 +129,7 @@ def create_report(kind: str, data):
 
 
 def validate_kind(ctx, param, value):
+    """Validate the given kind value"""
     kinds = [kind.value for kind in Kind]
     if value not in kinds:
         raise click.BadParameter(f"'{value}'. Must be one of {kinds}")
@@ -111,9 +145,10 @@ def validate_kind(ctx, param, value):
     callback=validate_kind,
 )
 def cli(statement_file, kind):
+    """Main"""
     raw_data = [dict(row) for row in csv.DictReader(statement_file)]
 
     processed_data = process_data(raw_data)
 
-    report = create_report(kind, processed_data)
+    report = generate_report(kind, processed_data)
     print(report)
