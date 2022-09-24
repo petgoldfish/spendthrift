@@ -145,4 +145,4 @@ def cli(statement_file, kind):
     processed_data = process_data(raw_data)
 
     report = generate_report(kind, processed_data)
-    print(report)
+    click.echo_via_pager(report)
