@@ -17,6 +17,7 @@ class Kind(Enum):
 
     CATEGORICAL = "categorical"
     MONTHLY = "monthly"
+    MONTHLY_CATRGORICAL = "monthly_categorical"
 
 
 def process_data(data):
@@ -75,11 +76,11 @@ def calculate_categorical_spend(by_category):
     categorical_sum, categorical_count)
     """
     categorical_spend = [
-        [
+        (
             category,
             sum(float(item["Amount"]) for item in by_category[category]),
             len(by_category[category]),
-        ]
+        )
         for category in by_category
     ]
     categorical_spend.sort(key=lambda x: x[1])
@@ -94,11 +95,18 @@ def calculate_monthly_spend(by_month):
     :returns: list of tuples, with each tuple being (month, monthly_sum, monthly_count)
     """
     return [
-        [
+        (
             month,
             sum(float(item["Amount"]) for item in by_month[month]),
             len(by_month[month]),
-        ]
+        )
+        for month in by_month
+    ]
+
+
+def calculate_monthly_categorical_spend(by_month):
+    return [
+        (month, calculate_categorical_spend(group_data_by_category(by_month[month])))
         for month in by_month
     ]
 
@@ -126,6 +134,19 @@ def generate_report(kind: str, data):
             headers=["Month", "Amount", "Count"],
             tablefmt="fancy_grid",
         )
+    if kind == Kind.MONTHLY_CATRGORICAL.value:
+        by_month = group_data_by_month(data)
+        monthly_categorical_spend = calculate_monthly_categorical_spend(by_month)
+        return "\n\n".join(
+            item[0]
+            + "\n"
+            + tabulate(
+                item[1],
+                headers=["Category", "Amount", "Count"],
+                tablefmt="fancy_grid",
+            )
+            for item in monthly_categorical_spend
+        )
 
 
 @click.command()
@@ -139,7 +160,7 @@ def generate_report(kind: str, data):
     help="the kind of report to generate",
 )
 def cli(statement_file, kind):
-    """Parses STATEMENT_FILE and produces a categorical or monthly spend report"""
+    """Parses STATEMENT_FILE and produces the specidfied kind of spend report"""
     raw_data = [dict(row) for row in csv.DictReader(statement_file)]
 
     processed_data = process_data(raw_data)

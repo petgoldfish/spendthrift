@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="spend-reporter",
-    version="0.2.1",
+    version="0.2.2",
     py_modules=["report"],
     include_package_data=True,
     install_requires=["click", "tabulate"],
