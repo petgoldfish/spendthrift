@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "chase-spend-reporter"
+version = "0.3.0"
+description = ""
+authors = ["petgoldfish <g.raghav.sai@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.10.4"
+click = "8.1.3"
+tabulate = "0.8.10"
+
+[tool.poetry.group.dev.dependencies]
+black = "22.8.0"
+isort = "5.10.1"
+pylint = "2.15.3"
+
+[tool.poetry.scripts]
+report = "chase_spend_reporter.report:cli"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
