@@ -118,7 +118,8 @@ def generate_report(kind: str, data):
     :param kind: the kind of report to generate
     :returns: a printable report of the specified kind
     """
-    if kind == Kind.CATEGORICAL.value:
+    match kind:
+        case Kind.CATEGORICAL.value:
         by_category = group_data_by_category(data)
         categorical_spend = calculate_categorical_spend(by_category)
         return tabulate(
@@ -126,7 +127,7 @@ def generate_report(kind: str, data):
             headers=["Category", "Amount", "Count"],
             tablefmt="fancy_grid",
         )
-    if kind == Kind.MONTHLY.value:
+        case Kind.MONTHLY.value:
         by_month = group_data_by_month(data)
         monthly_spend = calculate_monthly_spend(by_month)
         return tabulate(
@@ -134,7 +135,7 @@ def generate_report(kind: str, data):
             headers=["Month", "Amount", "Count"],
             tablefmt="fancy_grid",
         )
-    if kind == Kind.MONTHLY_CATRGORICAL.value:
+        case Kind.MONTHLY_CATRGORICAL.value:
         by_month = group_data_by_month(data)
         monthly_categorical_spend = calculate_monthly_categorical_spend(by_month)
         return "\n\n".join(

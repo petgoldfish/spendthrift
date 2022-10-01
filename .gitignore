@@ -1,6 +1,5 @@
 # Install related
 __pycache__
-*.egg-info
 .venv
 
 # Misc
