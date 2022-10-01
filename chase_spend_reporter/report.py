@@ -22,17 +22,17 @@ class Kind(Enum):
 
 def process_data(data):
     """
-    Process raw data
+    Filter out card payment entries from raw data.
 
     :param data: raw list of objects from the statement file
-    :returns: processed list of objects
+    :returns: filtered list of objects
     """
     return [item for item in data if not item["Type"] == "Payment"]
 
 
 def group_data_by_category(data):
     """
-    Group data by category
+    Group data by category.
 
     :param data: list of objects
     :returns: dict of objects grouped into lists by categories
@@ -51,7 +51,7 @@ def group_data_by_category(data):
 
 def group_data_by_month(data):
     """
-    Group data by month
+    Group data by month.
 
     :param data: list of objects
     :returns: dict of objects grouped into lists by month
@@ -69,7 +69,7 @@ def group_data_by_month(data):
 
 def calculate_categorical_spend(by_category):
     """
-    Calculate a categorical spend report
+    Calculate a categorical spend report.
 
     :param by_category: dict of objects grouped by categories
     :returns: list of tuples, with each tuple being (category_name,
@@ -89,7 +89,7 @@ def calculate_categorical_spend(by_category):
 
 def calculate_monthly_spend(by_month):
     """
-    Calculate a monthly spend report
+    Calculate a monthly spend report.
 
     :param by_month: dict of objects grouped by month
     :returns: list of tuples, with each tuple being (month, monthly_sum, monthly_count)
@@ -105,6 +105,12 @@ def calculate_monthly_spend(by_month):
 
 
 def calculate_monthly_categorical_spend(by_month):
+    """
+    Calculate a monthly spend report organized by category.
+
+    :param by_month: dict of objects grouped by month
+    :returns: list of tuples, with each tuple being (month, categorical_spend_for_month)
+    """
     return [
         (month, calculate_categorical_spend(group_data_by_category(by_month[month])))
         for month in by_month
