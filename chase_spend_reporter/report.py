@@ -120,34 +120,34 @@ def generate_report(kind: str, data):
     """
     match kind:
         case Kind.CATEGORICAL.value:
-        by_category = group_data_by_category(data)
-        categorical_spend = calculate_categorical_spend(by_category)
-        return tabulate(
-            categorical_spend,
-            headers=["Category", "Amount", "Count"],
-            tablefmt="fancy_grid",
-        )
-        case Kind.MONTHLY.value:
-        by_month = group_data_by_month(data)
-        monthly_spend = calculate_monthly_spend(by_month)
-        return tabulate(
-            monthly_spend,
-            headers=["Month", "Amount", "Count"],
-            tablefmt="fancy_grid",
-        )
-        case Kind.MONTHLY_CATRGORICAL.value:
-        by_month = group_data_by_month(data)
-        monthly_categorical_spend = calculate_monthly_categorical_spend(by_month)
-        return "\n\n".join(
-            item[0]
-            + "\n"
-            + tabulate(
-                item[1],
+            by_category = group_data_by_category(data)
+            categorical_spend = calculate_categorical_spend(by_category)
+            return tabulate(
+                categorical_spend,
                 headers=["Category", "Amount", "Count"],
                 tablefmt="fancy_grid",
             )
-            for item in monthly_categorical_spend
-        )
+        case Kind.MONTHLY.value:
+            by_month = group_data_by_month(data)
+            monthly_spend = calculate_monthly_spend(by_month)
+            return tabulate(
+                monthly_spend,
+                headers=["Month", "Amount", "Count"],
+                tablefmt="fancy_grid",
+            )
+        case Kind.MONTHLY_CATRGORICAL.value:
+            by_month = group_data_by_month(data)
+            monthly_categorical_spend = calculate_monthly_categorical_spend(by_month)
+            return "\n\n".join(
+                item[0]
+                + "\n"
+                + tabulate(
+                    item[1],
+                    headers=["Category", "Amount", "Count"],
+                    tablefmt="fancy_grid",
+                )
+                for item in monthly_categorical_spend
+            )
 
 
 @click.command()
