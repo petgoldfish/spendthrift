@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "chase-spend-reporter"
-version = "0.3.1"
+name = "spendthrift"
+version = "0.4.0"
 description = ""
 authors = ["petgoldfish <g.raghav.sai@gmail.com>"]
 license = "MIT"
@@ -17,7 +17,7 @@ isort = "5.10.1"
 pylint = "2.15.3"
 
 [tool.poetry.scripts]
-report = "chase_spend_reporter.report:cli"
+st = "spendthrift.cli.st:cli"
 
 [build-system]
 requires = ["poetry-core"]
