@@ -1,2 +1,2 @@
 # SpendThrift
-A package that helps analyze chase bank/credit-card statements.
+A package that helps analyze Chase bank/credit-card statements.
