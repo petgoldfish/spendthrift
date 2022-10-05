@@ -3,12 +3,9 @@ CLI Tool that parses Chase statements and produces monthly or categorical spend 
 Author: Raghav Sai
 """
 
-import csv
 
 import click
 from tabulate import tabulate
-
-from .kind import Kind
 
 from ..core.utils import (
     calculate_categorical_spend,
@@ -17,7 +14,9 @@ from ..core.utils import (
     filter_payments,
     group_data_by_category,
     group_data_by_month,
+    parse_statement_file,
 )
+from .kind import Kind
 
 
 def generate_report(kind: str, data):
@@ -71,7 +70,7 @@ def generate_report(kind: str, data):
 )
 def cli(statement_file, kind):
     """Parses STATEMENT_FILE and produces the specidfied kind of spend report"""
-    raw_data = [dict(row) for row in csv.DictReader(statement_file)]
+    raw_data = parse_statement_file(statement_file)
 
     processed_data = filter_payments(raw_data)
 

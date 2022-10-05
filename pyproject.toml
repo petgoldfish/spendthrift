@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "spendthrift"
-version = "0.4.0"
+version = "0.4.1"
 description = ""
 authors = ["petgoldfish <g.raghav.sai@gmail.com>"]
 license = "MIT"
