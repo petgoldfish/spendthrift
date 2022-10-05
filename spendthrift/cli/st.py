@@ -14,9 +14,9 @@ from ..core.utils import (
     calculate_categorical_spend,
     calculate_monthly_categorical_spend,
     calculate_monthly_spend,
+    filter_payments,
     group_data_by_category,
     group_data_by_month,
-    filter_payments,
 )
 
 

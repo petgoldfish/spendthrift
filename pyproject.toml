@@ -19,6 +19,10 @@ pylint = "2.15.3"
 [tool.poetry.scripts]
 st = "spendthrift.cli.st:cli"
 
+[tool.isort]
+profile = "black"
+line_length = 88
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
