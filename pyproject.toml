@@ -14,7 +14,9 @@ tabulate = "0.8.10"
 [tool.poetry.group.dev.dependencies]
 black = "22.8.0"
 isort = "5.10.1"
+mypy = "0.982"
 pylint = "2.15.3"
+types-tabulate = "0.8.11"
 
 [tool.poetry.scripts]
 st = "spendthrift.cli.st:cli"
