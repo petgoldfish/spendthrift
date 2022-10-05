@@ -8,7 +8,7 @@ import csv
 import click
 from tabulate import tabulate
 
-from spendthrift.cli.kind import Kind
+from .kind import Kind
 
 from ..core.utils import (
     calculate_categorical_spend,
