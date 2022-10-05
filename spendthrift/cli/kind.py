@@ -1,3 +1,7 @@
+"""
+This module holds the Kind enum, which is used to categorize the kind of
+reports the CLI can generate.
+"""
 from enum import Enum
 
 
