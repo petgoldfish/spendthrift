@@ -1,5 +1,5 @@
 """
-Core Utils
+Core Utils for processing statement data.
 """
 from collections import defaultdict
 from datetime import datetime
