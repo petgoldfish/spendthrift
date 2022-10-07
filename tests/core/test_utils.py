@@ -1,9 +1,10 @@
 """Test all the util functions."""
 from datetime import datetime
 from typing import List
+
 import pytest
 
-from spendthrift.core.transaction import Transaction, Category, TransactionType
+from spendthrift.core.transaction import Category, Transaction, TransactionType
 from spendthrift.core.utils import filter_payments
 
 
