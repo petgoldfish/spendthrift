@@ -2,6 +2,12 @@
 __pycache__
 .venv
 
+# Tests related
+.coverage
+.pytest_cache
+htmlcov
+
 # Misc
 .vscode
 data
+.mypy_cache
