@@ -35,31 +35,26 @@ jobs:
           command: |
             source .venv/bin/activate
             black --check --diff spendthrift tests
-          background: true
       - run:
           name: Check import sort
           command: |
             source .venv/bin/activate
             isort --check --diff spendthrift tests
-          background: true
       - run:
           name: Check static typing
           command: |
             source .venv/bin/activate
             mypy spendthrift tests
-          background: true
       - run:
           name: Lint code
           command: |
             source .venv/bin/activate
             pylint spendthrift tests
-          background: true
       - run:
           name: Test code with coverage
           command: |
             source .venv/bin/activate
             pytest --cov=spendthrift tests
-          background: true
 
 workflows:
   verify:
