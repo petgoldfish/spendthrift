@@ -35,9 +35,9 @@ class TestUtils:
             ),
         ]
 
-    def test_filter_payments(self, dummy_data):
+    def test_filter_payments(self, dummy_transactions):
         """Test payments are filtered from transactions"""
-        filtered_transactions = filter_payments(dummy_data)
+        filtered_transactions = filter_payments(dummy_transactions)
         assert all(
             transaction.transaction_type != TransactionType.PAYMENT
             for transaction in filtered_transactions
