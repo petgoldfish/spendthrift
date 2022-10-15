@@ -5,19 +5,22 @@ set -o pipefail
 REPO_ROOT=$(git rev-parse --show-toplevel)
 
 # shellcheck source=/dev/null
+source "$REPO_ROOT"/scripts/utils.sh
+
+# shellcheck source=/dev/null
 source "$REPO_ROOT"/.venv/bin/activate
 
-echo "black:"
+header "black:"
 time black --check --diff spendthrift tests
 echo
 
-echo "isort:"
+header "isort:"
 time isort --check --diff spendthrift tests
 echo
 
-echo "mypy:"
+header "mypy:"
 time mypy spendthrift tests
 echo
 
-echo "pylint:"
+header "pylint:"
 time pylint spendthrift tests
