@@ -10,7 +10,7 @@ commands:
       - run:
           name: Install Dependencies
           command: |
-            poetry config virtualenvs.create
+            poetry config virtualenvs.create true
             poetry config virtualenvs.in-project true
             poetry install
       - save_cache:
@@ -31,25 +31,8 @@ jobs:
           command: "pip install poetry==$(cat .poetry-version)"
       - setup_venv
       - run:
-          name: Check formatting
-          command: |
-            source .venv/bin/activate
-            black --check --diff spendthrift tests
-      - run:
-          name: Check import sort
-          command: |
-            source .venv/bin/activate
-            isort --check --diff spendthrift tests
-      - run:
-          name: Check static typing
-          command: |
-            source .venv/bin/activate
-            mypy spendthrift tests
-      - run:
           name: Lint code
-          command: |
-            source .venv/bin/activate
-            pylint spendthrift tests
+          command: scripts/lint.sh
       - run:
           name: Test code with coverage
           command: |
