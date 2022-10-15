@@ -1,0 +1,45 @@
+version: 2.1
+
+commands:
+  setup_venv:
+    steps:
+      - restore_cache:
+          name: Restore venv cache
+          keys:
+            - venv-{{ checksum ".python-version" }}-{{ checksum ".poetry-version" }}-{{ checksum "poetry.lock" }}
+      - run:
+          name: Install Dependencies
+          command: |
+            poetry config virtualenvs.create true
+            poetry config virtualenvs.in-project true
+            poetry install
+      - save_cache:
+          name: Save venv cache
+          key: venv-{{ checksum ".python-version" }}-{{ checksum ".poetry-version" }}-{{ checksum "poetry.lock" }}
+          paths:
+            - .venv
+
+jobs:
+  lint_and_test:
+    docker:
+      - image: cimg/python:3.10.4
+    resource_class: small
+    steps:
+      - checkout
+      - run:
+          name: Install poetry
+          command: "pip install poetry==$(cat .poetry-version)"
+      - setup_venv
+      - run:
+          name: Lint code
+          command: scripts/lint.sh
+      - run:
+          name: Test code with coverage
+          command: |
+            source .venv/bin/activate
+            pytest --cov=spendthrift tests
+
+workflows:
+  verify:
+    jobs:
+      - lint_and_test
