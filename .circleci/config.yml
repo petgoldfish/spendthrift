@@ -35,9 +35,7 @@ jobs:
           command: scripts/lint.sh
       - run:
           name: Test code with coverage
-          command: |
-            source .venv/bin/activate
-            pytest --cov=spendthrift tests
+          command: scripts/test.sh
 
 workflows:
   verify:
