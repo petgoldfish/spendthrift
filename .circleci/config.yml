@@ -40,4 +40,7 @@ jobs:
 workflows:
   verify:
     jobs:
-      - lint_and_test
+      - lint_and_test:
+          filters:
+            branches:
+              ignore: main

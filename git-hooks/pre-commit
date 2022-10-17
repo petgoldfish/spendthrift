@@ -1,0 +1,13 @@
+#!/bin/sh
+
+CHANGED_CONFIG_FILES=$(git diff --name-only origin/main | grep .circleci)
+
+# Exit if empty
+if [ -z "$CHANGED_CONFIG_FILES" ]; then
+   exit
+fi
+
+if ! circleci config validate; then
+    echo "CircleCI config invalid"
+    exit 1
+fi
