@@ -17,6 +17,7 @@ class Category(Enum):
     GROCERIES = "Groceries"
     HEALTH_AND_WELLNESS = "Health & Wellness"
     HOME = "Home"
+    PERSONAL = "Personal"
     PROFESSIONAL_SERVICES = "Professional Services"
     SHOPPING = "Shopping"
     TRAVEL = "Travel"
